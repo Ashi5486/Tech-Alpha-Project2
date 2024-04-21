@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>To-Do List</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<h4>Welcome To Do List </h4>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        background-color: aqua;
+    }
+    #todo-list {
+        width: 300px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+    #todo-list input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+    #todo-list ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    #todo-list li {
+        padding: 8px;
+        margin-bottom: 8px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    #todo-list li.completed {
+        background-color: #fff0f7; /* Light blue */
+    }
+    #todo-list li:hover {
+        background-color: #f0f0f0;
+    }
+    #todo-list li i {
+        cursor: pointer;
+    }
+    #todo-list li i.update {
+        margin-right: 5px;
+        color: #007bff;
+    }
+    #todo-list li i.delete {
+        margin-right: 5px;
+        color: #ff0000;
+    }
+    #todo-list li button {
+        padding: 4px 8px;
+        background-color: #4caf50; /* Green */
+        color: white;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+    #todo-list li.completed button {
+        background-color: #ddd; /* Grey */
+        cursor: not-allowed;
+    }
+</style>
+</head>
+<body>
+
+<div id="todo-list">
+    <input type="text" id="taskInput" placeholder="Add a new task">
+    <ul id="tasks"></ul>
+</div>
+
+<script>
+    // Get references to HTML elements
+    const taskInput = document.getElementById('taskInput');
+    const tasksList = document.getElementById('tasks');
+
+    // Function to add a new task
+    function addTask() {
+        const taskText = taskInput.value.trim();
+        if (taskText === '') {
+            alert('Please enter a task!');
+            return;
+        }
+        const li = document.createElement('li');
+        li.textContent = taskText;
+        const updateIcon = document.createElement('i');
+        updateIcon.className = 'fas fa-edit update';
+        updateIcon.addEventListener('click', function() {
+            const newText = prompt('Update the task:', taskText);
+            if (newText !== null && newText.trim() !== '') {
+                li.textContent = newText.trim();
+            }
+        });
+        const deleteIcon = document.createElement('i');
+        deleteIcon.className = 'fas fa-trash-alt delete';
+        deleteIcon.addEventListener('click', function() {
+            li.remove();
+        });
+        const completeButton = document.createElement('button');
+        completeButton.textContent = 'Complete';
+        completeButton.addEventListener('click', function() {
+            li.classList.toggle('completed');
+            completeButton.disabled = true;
+        });
+        li.appendChild(updateIcon);
+        li.appendChild(deleteIcon);
+        li.appendChild(completeButton);
+        tasksList.appendChild(li);
+        taskInput.value = '';
+    }
+
+    // Add event listener for the Enter key to add tasks
+    taskInput.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            addTask();
+        }
+    });
+</script>
+
+</body>
+</html>
